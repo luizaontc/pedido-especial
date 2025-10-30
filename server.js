@@ -30,60 +30,60 @@ app.listen(PORT_HTTP, () => {
 const PORT_WS = 8080;
 const wss = new WebSocketServer({ port: PORT_WS });
 
-// wss.on('connection', (ws) => {
-//     console.log('Cliente conectado');
-//     console.log(nameArray);
+wss.on('connection', (ws) => {
+    console.log('Cliente conectado');
+    console.log(nameArray);
 
-//     ws.on('message', (data) => {
-//         const message = data.toString();
+    ws.on('message', (data) => {
+        const message = data.toString();
 
-//         if ((message === "Luiz Henrique Soares da Silva" ||
-//             message === "Caroline Anne Caldeira"
-//         ) && !nameArray.includes(message)) {
-//             if (!ws.userName) {
-//                 ws.userName = message;
-//                 if (!nameArray.includes(message)) {
-//                     nameArray.push(message);
-//                     console.log('Usuários conectados:', nameArray);
-//                 }
+        if ((message === "Luiz Henrique Soares da Silva" ||
+            message === "Caroline Anne Caldeira"
+        ) && !nameArray.includes(message)) {
+            if (!ws.userName) {
+                ws.userName = message;
+                if (!nameArray.includes(message)) {
+                    nameArray.push(message);
+                    console.log('Usuários conectados:', nameArray);
+                }
 
-//                 wss.clients.forEach(client => {
-//                     if (client.readyState === ws.OPEN) {
-//                         client.send(`${ws.userName} entrou na sala.`);
-//                     }
-//                 });
-//                 return;
-//             }
+                wss.clients.forEach(client => {
+                    if (client.readyState === ws.OPEN) {
+                        client.send(`${ws.userName} entrou na sala.`);
+                    }
+                });
+                return;
+            }
 
-//             nameArray.push(message);
-//             console.log(nameArray);
-//         }
+            nameArray.push(message);
+            console.log(nameArray);
+        }
 
-//         ws.send(`Servidor recebeu: ${data}`);
-//     });
+        ws.send(`Servidor recebeu: ${data}`);
+    });
 
-//     ws.on('close', () => {
-//         if (ws.userName) {
-//             const index = nameArray.indexOf(ws.userName);
-//             if (index !== -1) nameArray.splice(index, 1);
+    ws.on('close', () => {
+        if (ws.userName) {
+            const index = nameArray.indexOf(ws.userName);
+            if (index !== -1) nameArray.splice(index, 1);
 
-//             console.log(`${ws.userName} saiu`);
-//             console.log('Usuários conectados:', nameArray);
+            console.log(`${ws.userName} saiu`);
+            console.log('Usuários conectados:', nameArray);
 
-//             wss.clients.forEach(client => {
-//                 if (client.readyState === ws.OPEN) {
-//                     client.send(`${ws.userName} saiu da sala.`);
-//                 }
-//             });
-//         }
-//     });
+            wss.clients.forEach(client => {
+                if (client.readyState === ws.OPEN) {
+                    client.send(`${ws.userName} saiu da sala.`);
+                }
+            });
+        }
+    });
 
-//     ws.on('error', (error) => {
-//         console.error('Erro no WebSocket:', error);
-//     });
+    ws.on('error', (error) => {
+        console.error('Erro no WebSocket:', error);
+    });
 
-//     ws.send('Bem-vindo ao servidor WebSocket!');
-// });
+    ws.send('Bem-vindo ao servidor WebSocket!');
+});
 
 console.log(`WebSocket rodando na porta ${PORT_WS}`);
 
