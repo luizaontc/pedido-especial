@@ -1,5 +1,9 @@
 let ws;
 
+console.log("GSAP version:", gsap.version);
+
+
+
 function connectWS() {
     ws = new WebSocket(`ws://localhost:8080`);
 

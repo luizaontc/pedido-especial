@@ -90,7 +90,7 @@ body {
 .linha-do-tempo {
     visibility: hidden;
     opacity: 0;
-    animation: aparecer-div 0.2s 7s forwards;
+    /* animation: aparecer-div 0.2s 7s forwards; */
 }
 
 img {
@@ -112,7 +112,7 @@ img {
     ;
     font-size: 20px;
     opacity: 0;
-    animation: aparecer-esmaecendo 1s forwards;
+    /* animation: aparecer-esmaecendo 1s forwards; */
 }
 
 .legenda {
@@ -124,63 +124,63 @@ img {
 #img-1 {
     transform: translate(-50%, -50%) rotate(-90deg);
     top: 30%;
-    animation:
+    /* animation:
         aparecer-da-direita 1s var(--tempo-inicial-delay) forwards,
-        sair-para-esquerda 1s 8s forwards;
+        sair-para-esquerda 1s 8s forwards; */
     opacity: 0;
 }
 
 #img-2 {
     transform: translate(-50%, -50%) rotate(-90deg);
     top: 70%;
-    animation:
+    /* animation:
         aparecer-da-esquerda 1s calc(var(--tempo-inicial-delay) + 2s) forwards,
-        sair-para-direita 1s 8s forwards;
+        sair-para-direita 1s 8s forwards; */
     opacity: 0;
 }
 
 #img-3 {
     transform: translate(-50%, -50%);
     top: 30%;
-    animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards;
+    /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
     opacity: 0;
 }
 
 #img-4 {
     transform: translate(-50%, -50%) rotate(-90deg);
     top: 70%;
-    animation:
-        aparecer-esmaecendo-tamanho-1emeio 1s 9s forwards;
+    /* animation:
+        aparecer-esmaecendo-tamanho-1emeio 1s 9s forwards; */
     opacity: 0;
 }
 
 .l-img-1 {
     top: 48%;
     left: 50%;
-    animation: aparecer-da-esquerda 1s var(--tempo-inicial-delay) forwards, sair-para-direita 1s 8s forwards;
+    /* animation: aparecer-da-esquerda 1s var(--tempo-inicial-delay) forwards, sair-para-direita 1s 8s forwards; */
     opacity: 0;
 }
 
 .l-img-2 {
     top: 90%;
     left: 50%;
-    animation:
+    /* animation:
         aparecer-da-direita 1s calc(var(--tempo-inicial-delay) + 2s) forwards,
-        sair-para-esquerda 1s 8s forwards;
+        sair-para-esquerda 1s 8s forwards; */
     opacity: 0;
 }
 
 .l-img-3 {
     top: 52%;
     left: 50%;
-    animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards;
+    /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
     opacity: 0;
 }
 
 .l-img-4 {
     top: 90%;
     left: 50%;
-    animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards;
+    /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
     opacity: 0;
 }
 
