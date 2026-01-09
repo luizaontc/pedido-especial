@@ -37,29 +37,33 @@ wss.on('connection', (ws) => {
     ws.on('message', (data) => {
         const message = data.toString();
 
-        if ((message === "Luiz Henrique Soares da Silva" ||
-            message === "Caroline Anne Caldeira"
-        ) && !nameArray.includes(message)) {
-            if (!ws.userName) {
+        if (!ws.userName) {
+            if (
+                message === "Luiz Henrique Soares da Silva" ||
+                message === "Caroline Anne Caldeira"
+            ) {
                 ws.userName = message;
+
                 if (!nameArray.includes(message)) {
                     nameArray.push(message);
-                    console.log('Usuários conectados:', nameArray);
                 }
 
-                wss.clients.forEach(client => {
-                    if (client.readyState === ws.OPEN) {
-                        client.send(`${ws.userName} entrou na sala.`);
-                    }
+                broadcast({
+                    type: "user_join",
+                    user: ws.userName,
+                    users: nameArray
                 });
-                return;
             }
 
-            nameArray.push(message);
-            console.log(nameArray);
+            console.log(nameArray.length);
+            if (nameArray.length === 2) {
+                broadcast({ type: "start_presentation", user: "", users: nameArray })
+
+            }
+            return;
         }
 
-        ws.send(`Servidor recebeu: ${data}`);
+
     });
 
     ws.on('close', () => {
@@ -67,23 +71,29 @@ wss.on('connection', (ws) => {
             const index = nameArray.indexOf(ws.userName);
             if (index !== -1) nameArray.splice(index, 1);
 
-            console.log(`${ws.userName} saiu`);
-            console.log('Usuários conectados:', nameArray);
-
-            wss.clients.forEach(client => {
-                if (client.readyState === ws.OPEN) {
-                    client.send(`${ws.userName} saiu da sala.`);
-                }
+            broadcast({
+                type: "user_leave",
+                user: ws.userName,
+                users: nameArray
             });
         }
     });
 
-    ws.on('error', (error) => {
-        console.error('Erro no WebSocket:', error);
-    });
-
-    ws.send('Bem-vindo ao servidor WebSocket!');
+    ws.send(JSON.stringify({
+        type: "welcome",
+        users: nameArray
+    }));
 });
+
+function broadcast(payload) {
+    const msg = JSON.stringify(payload);
+
+    wss.clients.forEach(client => {
+        if (client.readyState === client.OPEN) {
+            client.send(msg);
+        }
+    });
+}
 
 console.log(`WebSocket rodando na porta ${PORT_WS}`);
 

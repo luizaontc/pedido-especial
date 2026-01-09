@@ -20,7 +20,7 @@ body {
 }
 
 .input-divs {
-    display: none;
+    display: fixed;
     flex-direction: column;
     gap: 5px;
     align-items: center;
@@ -52,8 +52,28 @@ body {
     padding: 10px;
 }
 
-#resposta-ws {
+.overlay{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    z-index: 1000px;
     display: none;
+}
+
+#contador{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    font-size: 100px;
+    color: white;
+}
+
+
+#resposta-ws {
+    /* display: none; */
     animation: 2s ease-in-out;
     opacity: 1;
     margin-top: 10px;
@@ -73,6 +93,7 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: lightblue;
+    display: none;
 }
 
 .nossa-historia {
@@ -182,6 +203,14 @@ img {
     left: 50%;
     /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
     opacity: 0;
+}
+
+.sumir-div {
+  animation: sumir-div 0.5s ease forwards;
+}
+
+.aparecer-div {
+  animation: aparecer-div 0.5s ease forwards;
 }
 
 @keyframes aparecer-esmaecendo {
@@ -303,5 +332,15 @@ img {
     100% {
         opacity: 1;
         visibility: visible;
+    }
+}
+
+@keyframes sumir-div{
+    0%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
     }
 }
