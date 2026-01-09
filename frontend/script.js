@@ -4,7 +4,7 @@ connectWS();
 
 
 function connectWS() {
-    ws = new WebSocket(`ws://localhost:8080`);
+    ws = new WebSocket(`ws://localhost:3000`);
 
     ws.onopen = () => console.log('Conectado!');
 
