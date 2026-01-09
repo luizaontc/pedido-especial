@@ -4,7 +4,8 @@ connectWS();
 
 
 function connectWS() {
-    ws = new WebSocket(`ws://localhost:3000`);
+    const protocol = location.protocol === "https:" ? "wss" : "ws";
+    const ws = new WebSocket(`${protocol}://${location.host}`);
 
     ws.onopen = () => console.log('Conectado!');
 
