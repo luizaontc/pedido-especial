@@ -9,6 +9,8 @@ function connectWS() {
 
     ws.onopen = () => console.log('Conectado!');
 
+    console.log(ws);
+    
     ws.onmessage = (e) => {
         const msg = JSON.parse(e.data);
 
@@ -107,17 +109,18 @@ function renderUsuarios(users) {
 document.getElementById('entrar').addEventListener('click', () => {
     const nome = document.getElementById('nome').value.trim();
 
-    if (!nome) {
-        alert('Digite um nome primeiro!');
+    if (!nome) return;
+
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+        console.warn("WebSocket não está conectado");
         return;
     }
-    console.log('Estado:', ws.readyState);
 
     ws.send(nome);
 });
 
 document.getElementById('fechar').addEventListener('click', () => {
-    ws.close();
+    if (ws) ws.close();
 });
 
 function inserirMensagem(data) {
