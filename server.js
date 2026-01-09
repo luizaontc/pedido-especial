@@ -1,40 +1,32 @@
-import express from 'express';
-import { WebSocketServer } from 'ws';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import livereload from 'livereload';
-import connectLiveReload from 'connect-livereload';
+import express from "express";
+import http from "http";
+import { WebSocketServer } from "ws";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, 'frontend'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
 
+const PORT = process.env.PORT || 3000;
 const nameArray = [];
 
-app.use(connectLiveReload());
-app.use(express.static(path.join(__dirname, 'frontend')));
+// servir frontend
+app.use(express.static(path.join(__dirname, "frontend")));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
 
-const PORT_HTTP = 5000;
-
-app.listen(PORT_HTTP, () => {
-    console.log(`App rodando na porta ${PORT_HTTP}!`);
-});
-
-const PORT_WS = 8080;
-const wss = new WebSocketServer({ port: PORT_WS });
-
-wss.on('connection', (ws) => {
-    console.log('Cliente conectado');
+// websocket
+wss.on("connection", (ws) => {
+    console.log("Cliente conectado");
     console.log(nameArray);
 
-    ws.on('message', (data) => {
+    ws.on("message", (data) => {
         const message = data.toString();
 
         if (!ws.userName) {
@@ -53,20 +45,23 @@ wss.on('connection', (ws) => {
                     user: ws.userName,
                     users: nameArray
                 });
+
+                console.log(nameArray.length);
+
+                if (nameArray.length === 2) {
+                    broadcast({
+                        type: "start_presentation",
+                        user: "",
+                        users: nameArray
+                    });
+                }
             }
 
-            console.log(nameArray.length);
-            if (nameArray.length === 2) {
-                broadcast({ type: "start_presentation", user: "", users: nameArray })
-
-            }
             return;
         }
-
-
     });
 
-    ws.on('close', () => {
+    ws.on("close", () => {
         if (ws.userName) {
             const index = nameArray.indexOf(ws.userName);
             if (index !== -1) nameArray.splice(index, 1);
@@ -85,6 +80,7 @@ wss.on('connection', (ws) => {
     }));
 });
 
+// broadcast helper
 function broadcast(payload) {
     const msg = JSON.stringify(payload);
 
@@ -95,10 +91,7 @@ function broadcast(payload) {
     });
 }
 
-console.log(`WebSocket rodando na porta ${PORT_WS}`);
-
-liveReloadServer.server.once('connection', () => {
-    setTimeout(() => {
-        liveReloadServer.refresh('/');
-    }, 100);
+// inicia tudo (HTTP + WS)
+server.listen(PORT, () => {
+    console.log("Servidor rodando na porta", PORT);
 });
