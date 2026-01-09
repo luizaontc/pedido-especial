@@ -9,21 +9,18 @@
     --tempo-inicial-delay: 2.5s;
 }
 
-body {
+
+.input-divs {
     width: 100vw;
     height: 100vh;
     background-color: grey;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-}
-
-.input-divs {
-    display: fixed;
     flex-direction: column;
     gap: 5px;
     align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .input-divs p {
@@ -52,7 +49,7 @@ body {
     padding: 10px;
 }
 
-.overlay{
+.overlay {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -61,7 +58,7 @@ body {
     display: none;
 }
 
-#contador{
+#contador {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,14 +101,14 @@ body {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 20px;
     opacity: 0;
-    /* animation: aparecer-esmaecendo 8s forwards, mover-texto-para-cima 1s 10s forwards; */
+    animation: aparecer-esmaecendo 8s forwards, mover-texto-para-cima 1s 10s forwards;
     text-align: center;
 }
 
 .linha-do-tempo {
     visibility: hidden;
     opacity: 0;
-    /* animation: aparecer-div 0.2s 7s forwards; */
+    animation: aparecer-div 0.2s 7s forwards;
 }
 
 img {
@@ -133,7 +130,7 @@ img {
     ;
     font-size: 20px;
     opacity: 0;
-    /* animation: aparecer-esmaecendo 1s forwards; */
+    animation: aparecer-esmaecendo 1s forwards;
 }
 
 .legenda {
@@ -145,72 +142,73 @@ img {
 #img-1 {
     transform: translate(-50%, -50%) rotate(-90deg);
     top: 30%;
-    /* animation:
+    animation:
         aparecer-da-direita 1s var(--tempo-inicial-delay) forwards,
-        sair-para-esquerda 1s 8s forwards; */
+        sair-para-esquerda 1s 8s forwards;
     opacity: 0;
 }
 
 #img-2 {
     transform: translate(-50%, -50%) rotate(-90deg);
     top: 70%;
-    /* animation:
+    animation:
         aparecer-da-esquerda 1s calc(var(--tempo-inicial-delay) + 2s) forwards,
-        sair-para-direita 1s 8s forwards; */
+        sair-para-direita 1s 8s forwards;
     opacity: 0;
 }
 
 #img-3 {
     transform: translate(-50%, -50%);
     top: 30%;
-    /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
+    animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards;
     opacity: 0;
 }
 
 #img-4 {
     transform: translate(-50%, -50%) rotate(-90deg);
     top: 70%;
-    /* animation:
-        aparecer-esmaecendo-tamanho-1emeio 1s 9s forwards; */
+    animation:
+        aparecer-esmaecendo-tamanho-1emeio 1s 9s forwards;
     opacity: 0;
 }
 
 .l-img-1 {
     top: 48%;
     left: 50%;
-    /* animation: aparecer-da-esquerda 1s var(--tempo-inicial-delay) forwards, sair-para-direita 1s 8s forwards; */
+    animation: aparecer-da-esquerda 1s var(--tempo-inicial-delay) forwards, sair-para-direita 1s 8s forwards;
     opacity: 0;
 }
 
 .l-img-2 {
     top: 90%;
     left: 50%;
-    /* animation:
+    animation:
         aparecer-da-direita 1s calc(var(--tempo-inicial-delay) + 2s) forwards,
-        sair-para-esquerda 1s 8s forwards; */
+        sair-para-esquerda 1s 8s forwards;
     opacity: 0;
 }
 
 .l-img-3 {
     top: 52%;
     left: 50%;
-    /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
+    animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards;
     opacity: 0;
 }
 
 .l-img-4 {
     top: 90%;
     left: 50%;
-    /* animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards; */
+    animation: aparecer-esmaecendo-tamanho-normal 1s 9s forwards;
     opacity: 0;
 }
 
 .sumir-div {
-  animation: sumir-div 0.5s ease forwards;
+    animation: sumir-div 0.5s ease forwards;
 }
 
 .aparecer-div {
-  animation: aparecer-div 0.5s ease forwards;
+    animation: aparecer-div 0.5s ease forwards;
+    display: block;
 }
 
 @keyframes aparecer-esmaecendo {
@@ -335,12 +333,12 @@ img {
     }
 }
 
-@keyframes sumir-div{
-    0%{
+@keyframes sumir-div {
+    0% {
         opacity: 1;
     }
 
-    100%{
+    100% {
         opacity: 0;
     }
 }

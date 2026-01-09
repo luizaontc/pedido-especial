@@ -1,4 +1,5 @@
 let ws;
+let intervalo = null;
 connectWS();
 
 
@@ -24,6 +25,7 @@ function connectWS() {
         if (msg.type === "user_leave") {
             inserirMensagem(`${msg.user} saiu da sala`);
             renderUsuarios(msg.users);
+            reiniciarTudo();
         }
 
         if (msg.type === "start_presentation") {
@@ -37,28 +39,55 @@ function connectWS() {
     };
 }
 
-
-async function iniciarApresentacao() {
-    const overlay = document.getElementsByClassName("overlay")[0];
-    overlay.style.display = "block";
-
-    const contador = document.getElementById("contador");
-    let valor = parseInt(contador.textContent, 10);
+function reiniciarTudo() {
+    if (intervalo) {
+        clearInterval(intervalo);
+        intervalo = null;
+    }
 
     const inputDivs = document.getElementsByClassName("input-divs")[0];
     const primeiraApresentacao = document.getElementsByClassName("primeira-apresentacao")[0];
+    const overlay = document.getElementsByClassName("overlay")[0];
+    const contador = document.getElementById("contador");
 
-    console.log(inputDivs);
-    
-    const intervalo = setInterval(() => {
+    contador.textContent = "3"; // ou valor inicial
+    overlay.style.display = "none";
+
+    inputDivs.classList.remove("sumir-div");
+    inputDivs.style.display = "flex";
+
+    primeiraApresentacao.classList.remove("aparecer-div");
+    primeiraApresentacao.style.display = "none";
+}
+
+function iniciarApresentacao() {
+    reiniciarTudo(); // garante estado limpo
+
+    const overlay = document.getElementsByClassName("overlay")[0];
+    const contador = document.getElementById("contador");
+    const inputDivs = document.getElementsByClassName("input-divs")[0];
+    const primeiraApresentacao = document.getElementsByClassName("primeira-apresentacao")[0];
+
+    overlay.style.display = "block";
+
+    let valor = parseInt(contador.textContent, 10);
+
+    intervalo = setInterval(() => {
         valor--;
         contador.textContent = valor;
 
         if (valor <= 0) {
             clearInterval(intervalo);
+            intervalo = null;
+
             overlay.style.display = "none";
+
             inputDivs.classList.add("sumir-div");
-            primeiraApresentacao.classList.add("aparecer-div");
+            setTimeout(() => {
+                inputDivs.style.display = "none";
+                primeiraApresentacao.classList.add("aparecer-div");
+                primeiraApresentacao.style.display = "flex";
+            }, 500);
         }
     }, 1000);
 }
